@@ -13,7 +13,6 @@ class Workout(db.Model):
     notes = db.Column(db.Text)
 
     workout_exercises = db.relationship('WorkoutExercise', back_populates='workout', cascade="all, delete-orphan")
-
     exercises = db.relationship('Exercise', secondary='workout_exercises', viewonly=True)
 
     @validates('duration_minutes')
@@ -43,6 +42,7 @@ class WorkoutExercise(db.Model):
 
     __table_args__ = (
         CheckConstraint('reps >= 0', name='check_reps_positive'),
+        CheckConstraint('sets >= 0', name='check_sets_positive'),
     )
 
     id = db.Column(db.Integer, primary_key=True)
